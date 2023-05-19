@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: order-service
+  name: nlp-service
 spec:
   selector:
-    app: order-service-application
+    app: nlp-service-application
   type: ClusterIP
   ports:
     - name: http
@@ -15,23 +15,23 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: order-service-application
+  name: nlp-service-application
   labels:
-    app: order-service-application
+    app: nlp-service-application
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: order-service-application
+      app: nlp-service-application
   template:
     metadata:
       labels:
-        app: order-service-application
+        app: nlp-service-application
       annotations:
         rollme: {{ randAlphaNum 5 | quote }}
     spec:
       containers:
-        - name: order-service
+        - name: nlp-service
           image: ghcr.io/hackathon-x-mode/nlp-service:main
           imagePullPolicy: Always
           ports:
