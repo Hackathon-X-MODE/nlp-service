@@ -1,11 +1,10 @@
 spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
   application:
     name: example
-  datasource:
-    username: ${DATABASE_USER:postgres}
-    password: ${DATABASE_PASSWORD:postgres}
-    url: ${DATABASE_HOST_JDBC:jdbc:postgresql://localhost:5432}/order-service
-    driver-class-name: org.postgresql.Driver
   liquibase:
     change-log: classpath:/db/master.xml
 server:
