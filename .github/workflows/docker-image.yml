@@ -68,7 +68,7 @@ jobs:
         uses: actions/checkout@v2
       - uses: ivido/helm-deploy@v1
         with:
-          release: order-service
+          release: nlp-service
           namespace: default
           timeout: 400s
           chart: .
