@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: example
+  datasource:
+    username: ${DATABASE_USER:postgres}
+    password: ${DATABASE_PASSWORD:postgres}
+    url: ${DATABASE_HOST_JDBC:jdbc:postgresql://localhost:5432}/order-service
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:/db/master.xml
+server:
+  port: ${SERVER_HTTP_PORT:8080}
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /api-docs
