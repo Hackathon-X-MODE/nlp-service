@@ -15,24 +15,18 @@ import java.util.Set;
 public class CommentNlpService {
 
     private static final String TEMPLATE_CRITERIA = """
-            Распознай тематику отзыва о доставке товара через постамат из категорий: %_criteria_%. Через запятую
-            Сообщение: "%_comment_%"
+            Выпиши категории для описания отзыва о доставке в постамат
+            Категории:
+            %_criteria_%
+            
+            Какие категории подходят для отзыва об доставке товара в постамат, отзыв: "%_comment_%"
+                        
+            Выпиши только категории.
             """;
 
     private static final String TEMPLATE_MOOD = """
             Позитивный ли окрас у сообщения "%_comment_%" Ответь одним словом
             """;
-    private static final Map<String, CommentType> MAP_NLP_TO_TYPE = Map.of(
-            "описание товара на сайте интернет-магазина", CommentType.PRODUCT_DESCRIPTION,
-            "оформление заказа", CommentType.PREPARE_ORDER,
-            "получение заказа", CommentType.GETTING_ORDER,
-            "полученный заказ", CommentType.GOT_ORDER,
-            "товар", CommentType.PRODUCT,
-            "работа постамата", CommentType.POST_BOX,
-            "доставка", CommentType.DELIVERY,
-            "уведомления", CommentType.NOTIFICATION,
-            "иное", CommentType.OTHER
-    );
 
     private static final Map<CommentMood, Set<String>> MAP_MOOD_TO_NLP = Map.of(
             CommentMood.POSITIVE, Set.of("да", "позитив"),
@@ -41,18 +35,22 @@ public class CommentNlpService {
 
     private final String template;
     private final ChatGpt chatGpt;
+    private final Map<String, CommentType> commentDirectory;
 
-    public CommentNlpService(ChatGpt chatGpt) {
+    public CommentNlpService(ChatGpt chatGpt, CommentDirectory commentDirectory) {
         this.chatGpt = chatGpt;
-        this.template = TEMPLATE_CRITERIA.replace("%_criteria_%", "\"" + String.join("\",\"", MAP_NLP_TO_TYPE.keySet()) + "\"");
-        log.info("Generated template: {}", this.template);
+        this.commentDirectory = commentDirectory.getStorage();
+
+
+        this.template = TEMPLATE_CRITERIA.replace("%_criteria_%", String.join("\n", this.commentDirectory.keySet()));
+        log.info("Generated template: \n{}", this.template);
     }
 
 
     public List<CommentType> analysis(String comment) {
         log.info("Calculate message {}", comment.strip());
         final var message = this.chatGpt.message(this.template.replace("%_comment_%", comment.strip())).toLowerCase();
-        final var result = MAP_NLP_TO_TYPE.keySet().stream().filter(message::contains).map(MAP_NLP_TO_TYPE::get).toList();
+        final var result = this.commentDirectory.keySet().stream().filter(message::contains).map(this.commentDirectory::get).toList();
         log.info("Found {}", result);
         return result;
     }

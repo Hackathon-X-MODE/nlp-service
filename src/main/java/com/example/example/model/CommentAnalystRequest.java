@@ -5,18 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.UUID;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentAnalyst {
+public class CommentAnalystRequest {
+    private UUID id;
 
-    private UUID commentId;
+    private String comment;
 
-    private CommentMood mood;
-
-    private List<CommentType> commentTypes;
+    private boolean needTypes;
 }

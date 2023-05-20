@@ -1,6 +1,7 @@
 package com.example.example.controller;
 
 import com.example.example.model.CommentAnalyst;
+import com.example.example.model.CommentAnalystRequest;
 import com.example.example.service.CommentAggregation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,11 @@ public class TestRest {
 
     @PostMapping
     public CommentAnalyst test(@RequestBody String data) {
-        return this.commentAggregation.analyst(data);
+        return this.commentAggregation.analyst(
+                CommentAnalystRequest.builder()
+                        .comment(data)
+                        .needTypes(true)
+                        .build()
+        );
     }
 }

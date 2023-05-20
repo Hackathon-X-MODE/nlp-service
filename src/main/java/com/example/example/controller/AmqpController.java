@@ -1,5 +1,6 @@
 package com.example.example.controller;
 
+import com.example.example.model.CommentAnalystRequest;
 import com.example.example.service.CommentAggregation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,9 +15,9 @@ public class AmqpController {
     private final CommentAggregation commentAggregation;
 
     @RabbitListener(queues = "comments")
-    public void processComment(final String comment) {
+    public void processComment(final CommentAnalystRequest analystRequest) {
         log.info("Accepted comment");
-        final var result = this.commentAggregation.analyst(comment);
+        final var result = this.commentAggregation.analyst(analystRequest);
         log.info("Comment submitted");
     }
 

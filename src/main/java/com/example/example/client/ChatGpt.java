@@ -9,6 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -43,10 +44,10 @@ public class ChatGpt {
                 .block();
         log.info("Got {}", result);
 
-        return result.choices.stream().findFirst()
+        return result.choices.stream()
                 .map(ResponsesChoices::getMessage)
                 .map(ResponsesChoicesMessage::getContent)
-                .orElseThrow();
+                .collect(Collectors.joining(" "));
     }
 
 
