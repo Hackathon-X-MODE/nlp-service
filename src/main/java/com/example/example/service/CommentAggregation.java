@@ -1,12 +1,11 @@
 package com.example.example.service;
 
+import com.example.example.client.CommentClient;
 import com.example.example.model.CommentAnalyst;
 import com.example.example.model.CommentAnalystRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Slf4j
 @Service
@@ -22,7 +21,7 @@ public class CommentAggregation {
         return CommentAnalyst.builder()
                 .commentId(analystRequest.getId())
                 .mood(this.commentNlpService.mood(preparedComment))
-                .commentTypes(analystRequest.isNeedTypes() ? this.commentNlpService.analysis(preparedComment) : List.of())
+                .commentTypes(analystRequest.isNeedTypes() ? this.commentNlpService.analysis(preparedComment) : null)
                 .build();
     }
 
