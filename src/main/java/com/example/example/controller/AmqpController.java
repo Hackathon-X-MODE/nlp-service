@@ -14,7 +14,7 @@ public class AmqpController {
 
     private final CommentReceive commentReceive;
 
-    @RabbitListener(queues = "comments", concurrency = "3")
+    @RabbitListener(queues = "comments", concurrency = "2")
     public void processComment(final CommentAnalystRequest analystRequest) {
         log.info("Accepted comment");
         this.commentReceive.receiveComment(analystRequest);
