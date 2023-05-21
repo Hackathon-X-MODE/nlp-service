@@ -31,7 +31,7 @@ public class CommentClient {
 
     public void update(CommentAnalyst commentAnalyst) {
         this.webClient.patch()
-                .uri(uriBuilder -> uriBuilder.path("/{commentId}").build(commentAnalyst.getCommentId()))
+                .uri(uriBuilder -> uriBuilder.path("/external/{commentId}").build(commentAnalyst.getCommentId()))
                 .bodyValue(Map.of(
                         "mood", commentAnalyst.getMood(),
                         "commentTypes", commentAnalyst.getCommentTypes()
