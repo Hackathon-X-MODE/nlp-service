@@ -19,7 +19,7 @@ metadata:
   labels:
     app: nlp-service-application
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: nlp-service-application
