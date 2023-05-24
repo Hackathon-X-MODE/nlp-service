@@ -63,6 +63,11 @@ public class CommentSpacyNlpService implements CommentNlpService {
             storage.addAll(targetResult);
         });
 
+        if (storage.isEmpty()) {
+            //ya hard code ;/
+            storage.add(CommentType.OTHER);
+        }
+
         return storage.stream().toList();
     }
 
