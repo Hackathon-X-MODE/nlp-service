@@ -2,6 +2,7 @@ package com.example.example.client;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -17,10 +18,10 @@ public class ChatGpt {
 
     private final WebClient webClient;
 
-    public ChatGpt() {
+    public ChatGpt(@Value("${gpt.key}") String key) {
         this.webClient = WebClient.builder()
                 .baseUrl("https://api.openai.com/v1")
-                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer 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")
+                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + key)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }
